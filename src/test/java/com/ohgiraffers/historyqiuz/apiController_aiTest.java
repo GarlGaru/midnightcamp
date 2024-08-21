@@ -29,7 +29,7 @@ public class apiController_aiTest {
 //                    String getstr = aiApiController.sendGetRequest();
 //                    System.out.println(getstr);
 //                    aiApiController.sendGetRequest();
-                    apiController.testai();
+                    apiController.getAIData();
                 }
         );
     }

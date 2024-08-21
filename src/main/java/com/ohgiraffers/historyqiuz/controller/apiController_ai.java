@@ -15,7 +15,7 @@ public class apiController_ai {
 
     public QuizDTO sendGetRequest() {
         String url = "http://192.168.1.75:8000/create_q";
-        url = "http://localhost:8080/test/single";
+//        url = "http://localhost:8080/test/single";
         QuizDTO response = restTemplate.getForObject(url, QuizDTO.class);
         System.out.println(response);
         return response;

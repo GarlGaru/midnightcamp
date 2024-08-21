@@ -37,14 +37,14 @@ public class ApiController {
         Collections.shuffle(mutableQuizList);
         List<Quiz>  result = mutableQuizList.subList(0,8);
 
-        //추출된 8개의 카운트 +1  //Todo : 비동기로 만들기
+        //추출된 8개의 카운트 +1
         quizService.countQuizLoaded(result);
 //        checkQuizDB();
 
         return quizService.convertAllQuizDTO(result);
     }
 
-    @GetMapping(value="dbcheck")
+    @GetMapping(value="dbcheck", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String checkQuizDB(){
         List<Quiz> quizlist = quizService.getAllQuiz();
@@ -57,11 +57,15 @@ public class ApiController {
                 }
         );
         deleteList.forEach(quiz -> quizService.removeQuiz(quiz));
+        for (int i = 0; i < 8; i++) {
+            QuizDTO dto = getAIData();
+            quizService.registNewQuiz(dto);
+        }
         System.out.println("퀴즈 리스트 calibrate");
         return "done";
     }
 
-    public QuizDTO testai(){
+    public QuizDTO getAIData(){
         return aiController.sendGetRequest();
     }
 
