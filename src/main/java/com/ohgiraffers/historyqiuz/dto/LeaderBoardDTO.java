@@ -1,5 +1,7 @@
 package com.ohgiraffers.historyqiuz.dto;
 
+import com.ohgiraffers.historyqiuz.entity.LeaderBoard;
+
 import java.time.LocalDateTime;
 
 public class LeaderBoardDTO {
@@ -14,6 +16,13 @@ public class LeaderBoardDTO {
         NickName = nickName;
         Score = score;
         ClearTime = clearTime;
+    }
+
+    public LeaderBoardDTO(LeaderBoard leaderBoard) {
+        this(
+                leaderBoard.getNickName(),
+                leaderBoard.getScore(),
+                leaderBoard.getClearTime());
     }
 
     public String getNickName() {

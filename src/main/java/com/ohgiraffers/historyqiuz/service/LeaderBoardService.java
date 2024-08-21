@@ -1,6 +1,8 @@
 package com.ohgiraffers.historyqiuz.service;
 
 import com.ohgiraffers.historyqiuz.dto.LeaderBoardDTO;
+import com.ohgiraffers.historyqiuz.entity.LeaderBoard;
+import com.ohgiraffers.historyqiuz.repository.LeaderBoardRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -10,7 +12,22 @@ import java.util.List;
 @Service
 public class LeaderBoardService {
 
+    LeaderBoardRepository leaderBoardRepository;
+
     public LeaderBoardService() {
+
+    }
+
+    public LeaderBoardService(LeaderBoardRepository leaderBoardRepository) {
+        this.leaderBoardRepository = leaderBoardRepository;
+    }
+
+    public List<LeaderBoardDTO> getLeaderBoard() {
+        System.out.println(leaderBoardRepository.findAll());
+        return leaderBoardRepository.findAll()
+                .stream()
+                .map(LeaderBoardDTO::new)
+                .toList();
     }
 
     public List<LeaderBoardDTO> test() {

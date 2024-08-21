@@ -31,7 +31,7 @@ public class Quiz {
         this.callCount = callCount;
     }
 
-    public Quiz() {
+    protected Quiz() {
     }
 
     public Quiz(String quiz, QuizChoices choises, int answerNum, String description, int callCount) {

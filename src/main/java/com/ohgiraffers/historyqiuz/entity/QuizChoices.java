@@ -25,7 +25,7 @@ public class QuizChoices {
     private String choiseFour;
 
 
-    public QuizChoices() {
+    protected QuizChoices() {
     }
 
     public QuizChoices(String choiseOne, String choiseTwo, String choiseThree, String choiseFour) {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -31,9 +32,9 @@ public class QuizService {
                     Optional<QuizChoices> optionalQuizChoices =
                             quizChoicesRepository.findById(quiz.getChoises().getChoicesCode());
                     if(optionalQuizChoices.isEmpty()) {
-                        throw new NullPointerException("이 퀴즈 id 에 해당하는 선택지가 없습니다");
+                        throw new NoSuchElementException("이 퀴즈 id 에 해당하는 선택지가 없습니다");
                     }
-                    QuizChoices quizChoices = optionalQuizChoices.orElse(null);
+                    QuizChoices quizChoices = optionalQuizChoices.get();
                     return new QuizDTO(quiz, quizChoices);
                 }
                 )
