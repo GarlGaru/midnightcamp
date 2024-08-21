@@ -3,7 +3,9 @@ package com.ohgiraffers.historyqiuz.service;
 import com.ohgiraffers.historyqiuz.dto.LeaderBoardDTO;
 import com.ohgiraffers.historyqiuz.entity.LeaderBoard;
 import com.ohgiraffers.historyqiuz.repository.LeaderBoardRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,16 +14,19 @@ import java.util.List;
 @Service
 public class LeaderBoardService {
 
+
     LeaderBoardRepository leaderBoardRepository;
 
     public LeaderBoardService() {
 
     }
 
+    @Autowired
     public LeaderBoardService(LeaderBoardRepository leaderBoardRepository) {
         this.leaderBoardRepository = leaderBoardRepository;
     }
 
+    @Transactional
     public List<LeaderBoardDTO> getLeaderBoard() {
         System.out.println(leaderBoardRepository.findAll());
         return leaderBoardRepository.findAll()

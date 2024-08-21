@@ -5,7 +5,9 @@ import com.ohgiraffers.historyqiuz.dto.QuizDTO;
 import com.ohgiraffers.historyqiuz.entity.QuizChoices;
 import com.ohgiraffers.historyqiuz.repository.QuizChoicesRepository;
 import com.ohgiraffers.historyqiuz.repository.QuizRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +20,17 @@ public class QuizService {
     private QuizRepository quizRepository;
     private QuizChoicesRepository quizChoicesRepository;
 
-    public QuizService() {
+    public QuizService(QuizChoicesRepository quizChoicesRepository) {
+        this.quizChoicesRepository = quizChoicesRepository;
     }
 
-    public QuizService(QuizRepository quizRepository) {
+    @Autowired
+    public QuizService(QuizRepository quizRepository, QuizChoicesRepository quizChoicesRepository) {
         this.quizRepository = quizRepository;
+        this.quizChoicesRepository = quizChoicesRepository;
     }
 
+    @Transactional
     public List<QuizDTO> getAllQuiz() {
         return quizRepository.findAll()
                 .stream()
