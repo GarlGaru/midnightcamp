@@ -100,19 +100,19 @@ public class QuizService {
 
     public List<QuizDTO> test() {
         List<QuizDTO> list = new ArrayList<QuizDTO>();
-        QuizDTO quiz = new QuizDTO();
-        quiz.setQuiz("테스트용 문제 이것은 문제 일까요?");
-        AnswerChoisesDTO answerChoisesDTO = new AnswerChoisesDTO();
-        answerChoisesDTO.setChoiseOne("1번 선택지");
-        answerChoisesDTO.setChoiseTwo("2번 선택지");
-        answerChoisesDTO.setChoiseThree("3번 선택지");
-        answerChoisesDTO.setChoiseFour("4번 선택지");
-        quiz.setChoises(answerChoisesDTO);
-        quiz.setAnswerNum(3);
-        quiz.setDescription("This is a Description, 여기에 해설이 들어갑니다");
-        list.add(quiz);
-        list.add(quiz);
-        list.add(quiz);
+        for (int i = 0; i < 8; i++) {
+            QuizDTO quiz = new QuizDTO();
+            quiz.setQuiz("테스트용 문제 " + i + i + i + i + i + i);
+            AnswerChoisesDTO answerChoisesDTO = new AnswerChoisesDTO();
+            answerChoisesDTO.setChoiseOne("1번 선택지");
+            answerChoisesDTO.setChoiseTwo("2번 선택지");
+            answerChoisesDTO.setChoiseThree("3번 선택지");
+            answerChoisesDTO.setChoiseFour("4번 선택지");
+            quiz.setChoises(answerChoisesDTO);
+            quiz.setAnswerNum(3);
+            quiz.setDescription("This is a Description, 여기에 해설이 들어갑니다");
+            list.add(quiz);
+        }
         return list;
     }
 

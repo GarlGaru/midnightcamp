@@ -46,7 +46,7 @@ public class ApiController {
 
     @GetMapping(value="dbcheck")
     @ResponseBody
-    public void checkQuizDB(){
+    public String checkQuizDB(){
         List<Quiz> quizlist = quizService.getAllQuiz();
         List<Quiz> deleteList = new ArrayList<>();
         quizlist.forEach(
@@ -57,7 +57,8 @@ public class ApiController {
                 }
         );
         deleteList.forEach(quiz -> quizService.removeQuiz(quiz));
-        System.out.println("threajiejwafwa");
+        System.out.println("퀴즈 리스트 calibrate");
+        return "done";
     }
 
     public QuizDTO testai(){
@@ -67,7 +68,7 @@ public class ApiController {
 
 
 
-    @PostMapping(value="/leaderboard", produces = "application/json; charset=UTF-8")
+    @GetMapping(value="/leaderboard", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<LeaderBoardDTO> leaderboardtestjson(@RequestParam String nickname, @RequestParam String score) {
         System.out.println("leaderboardtestjson");
