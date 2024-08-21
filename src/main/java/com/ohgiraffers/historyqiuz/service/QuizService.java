@@ -94,8 +94,8 @@ public class QuizService {
 
 
     @Transactional
-    public void removeQuiz(QuizDTO quizDTO) {
-//        quizRepository.delete(quizDTO);
+    public void removeQuiz(Quiz quiz) {
+        quizRepository.delete(quiz);
     }
 
     public List<QuizDTO> test() {

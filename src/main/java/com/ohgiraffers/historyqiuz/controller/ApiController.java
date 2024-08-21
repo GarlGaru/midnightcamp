@@ -6,11 +6,9 @@ import com.ohgiraffers.historyqiuz.entity.Quiz;
 import com.ohgiraffers.historyqiuz.service.LeaderBoardService;
 import com.ohgiraffers.historyqiuz.service.QuizService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,22 +39,44 @@ public class ApiController {
 
         //추출된 8개의 카운트 +1  //Todo : 비동기로 만들기
         quizService.countQuizLoaded(result);
+//        checkQuizDB();
 
         return quizService.convertAllQuizDTO(result);
     }
 
+    @GetMapping(value="dbcheck")
+    @ResponseBody
     public void checkQuizDB(){
-
+        List<Quiz> quizlist = quizService.getAllQuiz();
+        List<Quiz> deleteList = new ArrayList<>();
+        quizlist.forEach(
+                quiz -> {
+                    if (quiz.getCallCount() > 5){
+                        deleteList.add(quiz);
+                    }
+                }
+        );
+        deleteList.forEach(quiz -> quizService.removeQuiz(quiz));
+        System.out.println("threajiejwafwa");
     }
 
     public QuizDTO testai(){
         return aiController.sendGetRequest();
     }
 
-    @GetMapping(value="leaderboard", produces = "application/json; charset=UTF-8")
+
+
+
+    @PostMapping(value="/leaderboard", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public List<LeaderBoardDTO> leaderboardtestjson() {
+    public List<LeaderBoardDTO> leaderboardtestjson(@RequestParam String nickname, @RequestParam String score) {
         System.out.println("leaderboardtestjson");
-        return leaderBoardService.test();
+        LeaderBoardDTO leaderBoardDTO = new LeaderBoardDTO(
+                nickname,
+                Integer.parseInt(score),
+                LocalDateTime.now()
+        );
+        leaderBoardService.putNewRecord(leaderBoardDTO);
+        return leaderBoardService.getLeaderBoard();
     }
 }

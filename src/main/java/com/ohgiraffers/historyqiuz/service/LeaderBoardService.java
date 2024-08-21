@@ -35,6 +35,20 @@ public class LeaderBoardService {
                 .toList();
     }
 
+    @Transactional
+    public void putNewRecord(LeaderBoardDTO leaderBoardDTO) {
+        LeaderBoard leaderBoard = new LeaderBoard(
+                leaderBoardDTO.getNickName(),
+                leaderBoardDTO.getScore(),
+                leaderBoardDTO.getClearTime()
+        );
+
+        leaderBoardRepository.save(leaderBoard);
+    }
+
+
+
+
     public List<LeaderBoardDTO> test() {
         List<LeaderBoardDTO> list = new ArrayList<>();
         LeaderBoardDTO leaderBoardDTO = new LeaderBoardDTO();

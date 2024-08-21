@@ -13,9 +13,6 @@ public class LeaderBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int boardCode;
 
-    @Column(name = "ranking")
-    private int ranking;
-
     @Column(name = "nickname")
     private String NickName;
 
@@ -27,19 +24,14 @@ public class LeaderBoard {
 
     protected LeaderBoard() {}
 
-    public LeaderBoard(int ranking, String nickName, int score, LocalDateTime clearTime) {
-        this.ranking = ranking;
-        NickName = nickName;
-        Score = score;
-        ClearTime = clearTime;
+    public LeaderBoard(String nickName, int score, LocalDateTime clearTime) {
+        this.NickName = nickName;
+        this.Score = score;
+        this.ClearTime = clearTime;
     }
 
     public int getBoardCode() {
         return boardCode;
-    }
-
-    public int getRanking() {
-        return ranking;
     }
 
     public String getNickName() {
@@ -58,7 +50,6 @@ public class LeaderBoard {
     public String toString() {
         return "LeaderBoard{" +
                 "boardCode='" + boardCode + '\'' +
-                ", ranking=" + ranking +
                 ", NickName='" + NickName + '\'' +
                 ", Score=" + Score +
                 ", ClearTime=" + ClearTime +
