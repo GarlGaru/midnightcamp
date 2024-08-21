@@ -3,7 +3,6 @@ package com.ohgiraffers.historyqiuz.dto;
 import com.ohgiraffers.historyqiuz.entity.Quiz;
 import com.ohgiraffers.historyqiuz.entity.QuizChoices;
 
-import java.util.Optional;
 
 public class QuizDTO {
 

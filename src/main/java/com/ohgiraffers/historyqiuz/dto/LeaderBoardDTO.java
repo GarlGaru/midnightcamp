@@ -22,7 +22,8 @@ public class LeaderBoardDTO {
         this(
                 leaderBoard.getNickName(),
                 leaderBoard.getScore(),
-                leaderBoard.getClearTime());
+                leaderBoard.getClearTime()
+        );
     }
 
     public String getNickName() {
