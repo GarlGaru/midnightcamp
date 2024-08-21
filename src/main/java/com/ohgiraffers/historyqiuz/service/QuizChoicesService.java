@@ -33,16 +33,9 @@ public class QuizChoicesService {
     }
 
     @Transactional
-    public QuizChoices registNewQuizChoice(AnswerChoisesDTO answerChoisesDTO) {
+    public void registNewQuizChoice(QuizChoices choices) {
         System.out.println("answerChoisesDTO");
-        QuizChoices choices = new QuizChoices(
-                answerChoisesDTO.getChoiseOne(),
-                answerChoisesDTO.getChoiseTwo(),
-                answerChoisesDTO.getChoiseThree(),
-                answerChoisesDTO.getChoiseFour()
-        );
         quizChoicesRepository.save(choices);
-        return choices;
     }
 
     @Transactional

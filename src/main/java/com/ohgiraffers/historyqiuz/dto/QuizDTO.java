@@ -42,8 +42,6 @@ public class QuizDTO {
     }
 
     public AnswerChoisesDTO getChoises() {
-
-        System.out.println(choises);
         return choises;
     }
 

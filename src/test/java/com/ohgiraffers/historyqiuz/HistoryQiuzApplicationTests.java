@@ -3,6 +3,7 @@ package com.ohgiraffers.historyqiuz;
 import com.ohgiraffers.historyqiuz.controller.apiController_ai;
 import com.ohgiraffers.historyqiuz.dto.LeaderBoardDTO;
 import com.ohgiraffers.historyqiuz.dto.QuizDTO;
+import com.ohgiraffers.historyqiuz.entity.Quiz;
 import com.ohgiraffers.historyqiuz.service.LeaderBoardService;
 import com.ohgiraffers.historyqiuz.service.QuizChoicesService;
 import com.ohgiraffers.historyqiuz.service.QuizService;
@@ -35,7 +36,7 @@ class HistoryQiuzApplicationTests {
     void findAllQuiz(){
         Assertions.assertDoesNotThrow(
                 ()->{
-                    List<QuizDTO> quizs = quizService.getAllQuiz();
+                    List<Quiz> quizs = quizService.getAllQuiz();
                     quizs.forEach(System.out::println);
                 }
         );
@@ -57,7 +58,7 @@ class HistoryQiuzApplicationTests {
     void findQuizById() {
         Assertions.assertDoesNotThrow(
                 ()->{
-                    QuizDTO result = quizService.findSingleQuizByDetail("테스트용 문제 이것은 문제 일까요?");
+                    Quiz result = quizService.findSingleQuizByDetailby("테스트용 문제 이것은 문제 일까요?");
                     System.out.println(result);
                 }
         );

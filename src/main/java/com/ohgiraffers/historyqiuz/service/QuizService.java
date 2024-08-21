@@ -19,63 +19,61 @@ import java.util.Optional;
 public class QuizService {
 
     private QuizRepository quizRepository;
-    private QuizChoicesService quizChoicesService;
+    private QuizChoicesRepository quizChoicesRepository;
 
     @Autowired
-    public QuizService(QuizRepository quizRepository, QuizChoicesService quizChoicesService) {
+    public QuizService(QuizRepository quizRepository, QuizChoicesRepository quizChoicesRepository) {
         this.quizRepository = quizRepository;
-        this.quizChoicesService = quizChoicesService;
+        this.quizChoicesRepository = quizChoicesRepository;
     }
 
     @Transactional
-    public List<QuizDTO> getAllQuiz() {
-        return quizRepository.findAll()
+    public List<Quiz> getAllQuiz() {
+        return quizRepository.findAll();
+    }
+
+    public List<QuizDTO> convertAllQuizDTO(List<Quiz> quizList) {
+        return quizList
                 .stream()
                 .map(quiz ->{
-                    QuizChoices quizChoices = quizChoicesService.findQuizChoiceById(quiz.getChoises().getChoicesCode());
+                            AnswerChoisesDTO answerChoisesDTO = new AnswerChoisesDTO(
+                                    quiz.getChoises()
+                            );
 
-                    return new QuizDTO(quiz, quizChoices);
-                }
+                            return new QuizDTO(
+                                    quiz.getQuiz(),
+                                    answerChoisesDTO,
+                                    quiz.getAnswerNum(),
+                                    quiz.getDescription()
+                            );
+                        }
                 )
                 .toList();
     }
 
-    @Transactional
-    public List<QuizDTO> findQuizByDetail(String quizdetail) {
-        List<Quiz> quizList = quizRepository.findByquizContains(quizdetail);
-//        List<Quiz> quizList = quizRepository.findByquizLike(quizdetail);
-        if(quizList.isEmpty()) {
-            throw new NoSuchElementException("해당하는 퀴즈가 없습니다");
-        }
-        return quizList.stream()
-                .map(quiz ->{
-                        QuizChoices quizChoices = quizChoicesService.findQuizChoiceById(quiz.getChoises().getChoicesCode());
-                        return new QuizDTO(quiz, quizChoices);
-                }
-                )
-                .toList();
-    }
 
     @Transactional
-    public QuizDTO findSingleQuizByDetail(String quizdetail) {
-        Quiz quiz = quizRepository.findByquizLike(quizdetail);
-        AnswerChoisesDTO answerChoisesDTO = new AnswerChoisesDTO(
-                quiz.getChoises()
-        );
-        QuizDTO quizDTO = new QuizDTO(
-                quiz.getQuiz(),
-                answerChoisesDTO,
-                quiz.getAnswerNum(),
-                quiz.getDescription()
-        );
-        return quizDTO;
+    public Quiz findSingleQuizByDetailby(String quizdetail) {
+        return quizRepository.findByquizLike(quizdetail);
     }
 
     @Transactional
     public void registNewQuiz(QuizDTO quizDTO) {
+        AnswerChoisesDTO answerChoisesDTO = quizDTO.getChoises();
+//        QuizChoices quizChoices= quizChoicesService.registNewQuizChoice(answerChoisesDTO);
+
+        QuizChoices quizChoices = new QuizChoices(
+                answerChoisesDTO.getChoiseOne(),
+                answerChoisesDTO.getChoiseTwo(),
+                answerChoisesDTO.getChoiseThree(),
+                answerChoisesDTO.getChoiseFour()
+        );
+
+        quizChoicesRepository.save(quizChoices);
+
         Quiz newQuiz = new Quiz(
                 quizDTO.getQuiz(),
-                quizChoicesService.registNewQuizChoice(quizDTO.getChoises()),
+                quizChoices,
                 quizDTO.getAnswerNum(),
                 quizDTO.getDescription(),
                 0
@@ -83,12 +81,19 @@ public class QuizService {
         quizRepository.save(newQuiz);
     }
 
-    public void countQuizLoaded(List<QuizDTO> result) {
-
-
+    @Transactional
+    public void countQuizLoaded(List<Quiz> result) {
+        result.forEach(
+                quizDTO -> {
+                    Quiz quiz = findSingleQuizByDetailby(quizDTO.getQuiz());
+                    quiz.setCallCount(quiz.getCallCount() + 1);
+                }
+        );
+        quizRepository.flush();
     }
 
 
+    @Transactional
     public void removeQuiz(QuizDTO quizDTO) {
 //        quizRepository.delete(quizDTO);
     }

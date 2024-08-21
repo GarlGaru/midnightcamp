@@ -63,6 +63,10 @@ public class Quiz {
         return callCount;
     }
 
+    public void setCallCount(int callCount) {
+        this.callCount = callCount;
+    }
+
     @Override
     public String toString() {
         return "Quiz{" +
