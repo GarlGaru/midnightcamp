@@ -23,10 +23,10 @@ public class QuizDTO {
     }
 
 
-    public QuizDTO(Quiz quiz, QuizChoices byId) {
+    public QuizDTO(Quiz quiz, QuizChoices choiceId) {
         this(
                 quiz.getQuiz(),
-                new AnswerChoisesDTO(byId) ,
+                new AnswerChoisesDTO(choiceId) ,
                 quiz.getAnswerNum(),
                 quiz.getDescription()
         );
@@ -42,6 +42,8 @@ public class QuizDTO {
     }
 
     public AnswerChoisesDTO getChoises() {
+
+        System.out.println(choises);
         return choises;
     }
 

@@ -27,10 +27,6 @@ public class Quiz {
     @Column(name = "call_count")
     private int callCount;
 
-    public Quiz(int callCount) {
-        this.callCount = callCount;
-    }
-
     protected Quiz() {
     }
 

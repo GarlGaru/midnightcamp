@@ -2,6 +2,7 @@ package com.ohgiraffers.historyqiuz.service;
 
 import com.ohgiraffers.historyqiuz.dto.AnswerChoisesDTO;
 import com.ohgiraffers.historyqiuz.dto.QuizDTO;
+import com.ohgiraffers.historyqiuz.entity.Quiz;
 import com.ohgiraffers.historyqiuz.entity.QuizChoices;
 import com.ohgiraffers.historyqiuz.repository.QuizChoicesRepository;
 import com.ohgiraffers.historyqiuz.repository.QuizRepository;
@@ -18,16 +19,12 @@ import java.util.Optional;
 public class QuizService {
 
     private QuizRepository quizRepository;
-    private QuizChoicesRepository quizChoicesRepository;
-
-    public QuizService(QuizChoicesRepository quizChoicesRepository) {
-        this.quizChoicesRepository = quizChoicesRepository;
-    }
+    private QuizChoicesService quizChoicesService;
 
     @Autowired
-    public QuizService(QuizRepository quizRepository, QuizChoicesRepository quizChoicesRepository) {
+    public QuizService(QuizRepository quizRepository, QuizChoicesService quizChoicesService) {
         this.quizRepository = quizRepository;
-        this.quizChoicesRepository = quizChoicesRepository;
+        this.quizChoicesService = quizChoicesService;
     }
 
     @Transactional
@@ -35,19 +32,50 @@ public class QuizService {
         return quizRepository.findAll()
                 .stream()
                 .map(quiz ->{
-                    Optional<QuizChoices> optionalQuizChoices =
-                            quizChoicesRepository.findById(quiz.getChoises().getChoicesCode());
-                    if(optionalQuizChoices.isEmpty()) {
-                        throw new NoSuchElementException("이 퀴즈 id 에 해당하는 선택지가 없습니다");
-                    }
-                    QuizChoices quizChoices = optionalQuizChoices.get();
+                    QuizChoices quizChoices = quizChoicesService.findQuizChoiceById(quiz.getChoises().getChoicesCode());
                     return new QuizDTO(quiz, quizChoices);
                 }
                 )
                 .toList();
     }
 
+    @Transactional
+    public List<QuizDTO> findQuizByDetail(String quizdetail) {
+        List<Quiz> quizList = quizRepository.findByquizContains(quizdetail);
+//        List<Quiz> quizList = quizRepository.findByquizLike(quizdetail);
+        if(quizList.isEmpty()) {
+            throw new NoSuchElementException("해당하는 퀴즈가 없습니다");
+        }
+        return quizList.stream()
+                .map(quiz ->{
+                        QuizChoices quizChoices = quizChoicesService.findQuizChoiceById(quiz.getChoises().getChoicesCode());
+                        return new QuizDTO(quiz, quizChoices);
+                }
+                )
+                .toList();
+    }
 
+    @Transactional
+    public void registNewQuiz(QuizDTO quizDTO) {
+        Quiz newQuiz = new Quiz(
+                quizDTO.getQuiz(),
+                quizChoicesService.registNewQuizChoice(quizDTO.getChoises()),
+                quizDTO.getAnswerNum(),
+                quizDTO.getDescription(),
+                0
+        );
+        quizRepository.save(newQuiz);
+    }
+
+    public void countQuizLoaded(List<QuizDTO> result) {
+
+
+    }
+
+
+    public void removeQuiz(QuizDTO quizDTO) {
+//        quizRepository.delete(quizDTO);
+    }
 
     public List<QuizDTO> test() {
         List<QuizDTO> list = new ArrayList<QuizDTO>();
@@ -66,4 +94,5 @@ public class QuizService {
         list.add(quiz);
         return list;
     }
+
 }

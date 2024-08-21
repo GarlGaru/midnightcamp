@@ -1,4 +1,4 @@
-package com.ohgiraffers.historyqiuz;
+package com.ohgiraffers.historyqiuz.controller;
 
 import com.ohgiraffers.historyqiuz.dto.LeaderBoardDTO;
 import com.ohgiraffers.historyqiuz.dto.QuizDTO;
@@ -13,12 +13,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/test")
-public class ApiController {
+public class ApiTestController {
 
     private final QuizService quizService;
     private final LeaderBoardService leaderBoardService;
 
-    public ApiController(QuizService quizService, LeaderBoardService leaderBoardService) {
+    public ApiTestController(QuizService quizService, LeaderBoardService leaderBoardService) {
         this.quizService = quizService;
         this.leaderBoardService = leaderBoardService;
     }
