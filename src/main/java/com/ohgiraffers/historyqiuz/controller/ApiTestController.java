@@ -23,19 +23,19 @@ public class ApiTestController {
         this.leaderBoardService = leaderBoardService;
     }
 
-    @GetMapping(value="test", produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public List<QuizDTO> testjson() {
-        System.out.println("testjson");
-        return quizService.test();
-    }
+//    @GetMapping(value="test", produces = "application/json; charset=UTF-8")
+//    @ResponseBody
+//    public List<QuizDTO> testjson() {
+//        System.out.println("testjson");
+//        return quizService.test();
+//    }
 
-    @GetMapping(value="leaderboard", produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public List<LeaderBoardDTO> leaderboardtestjson() {
-        System.out.println("leaderboardtestjson");
-        return leaderBoardService.test();
-    }
+//    @GetMapping(value="leaderboard", produces = "application/json; charset=UTF-8")
+//    @ResponseBody
+//    public List<LeaderBoardDTO> leaderboardtestjson() {
+//        System.out.println("leaderboardtestjson");
+//        return leaderBoardService.test();
+//    }
 
 
 }

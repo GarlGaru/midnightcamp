@@ -49,6 +49,7 @@ public class ApiController {
     public String checkQuizDB(){
         List<Quiz> quizlist = quizService.getAllQuiz();
         List<Quiz> deleteList = new ArrayList<>();
+
         quizlist.forEach(
                 quiz -> {
                     if (quiz.getCallCount() > 5){
@@ -57,7 +58,9 @@ public class ApiController {
                 }
         );
         deleteList.forEach(quiz -> quizService.removeQuiz(quiz));
-        for (int i = 0; i < 8; i++) {
+        int deleteCount = deleteList.size();
+        if (deleteCount >3){deleteCount=3;}
+        for (int i = 0; i < deleteCount; i++) {
             QuizDTO dto = getAIData();
             quizService.registNewQuiz(dto);
         }
@@ -82,6 +85,30 @@ public class ApiController {
                 LocalDateTime.now()
         );
         leaderBoardService.putNewRecord(leaderBoardDTO);
+        return leaderBoardService.getLeaderBoard();
+    }
+
+
+
+    @GetMapping(value="/result", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<LeaderBoardDTO> getResultJson(@RequestParam String nickname, @RequestParam String score) {
+        System.out.println("leaderboardtestjson");
+        LeaderBoardDTO leaderBoardDTO = new LeaderBoardDTO(
+                nickname,
+                Integer.parseInt(score),
+                LocalDateTime.now()
+        );
+        leaderBoardService.putNewRecord(leaderBoardDTO);
+        return leaderBoardService.getLeaderBoard();
+    }
+
+
+    @GetMapping(value="/newleaderboard", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<LeaderBoardDTO> getLeaderBoardJson() {
+        System.out.println("leaderboardtestjson");
+
         return leaderBoardService.getLeaderBoard();
     }
 }
