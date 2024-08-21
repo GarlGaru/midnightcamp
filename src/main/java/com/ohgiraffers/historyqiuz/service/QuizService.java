@@ -33,6 +33,7 @@ public class QuizService {
                 .stream()
                 .map(quiz ->{
                     QuizChoices quizChoices = quizChoicesService.findQuizChoiceById(quiz.getChoises().getChoicesCode());
+
                     return new QuizDTO(quiz, quizChoices);
                 }
                 )
@@ -53,6 +54,21 @@ public class QuizService {
                 }
                 )
                 .toList();
+    }
+
+    @Transactional
+    public QuizDTO findSingleQuizByDetail(String quizdetail) {
+        Quiz quiz = quizRepository.findByquizLike(quizdetail);
+        AnswerChoisesDTO answerChoisesDTO = new AnswerChoisesDTO(
+                quiz.getChoises()
+        );
+        QuizDTO quizDTO = new QuizDTO(
+                quiz.getQuiz(),
+                answerChoisesDTO,
+                quiz.getAnswerNum(),
+                quiz.getDescription()
+        );
+        return quizDTO;
     }
 
     @Transactional

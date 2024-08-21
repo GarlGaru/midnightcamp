@@ -14,7 +14,7 @@ public class Quiz {
     @Column(name = "quiz_detail")
     private String quiz;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "choices_code")
     private QuizChoices choises;
 

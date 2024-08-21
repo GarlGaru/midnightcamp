@@ -57,8 +57,8 @@ class HistoryQiuzApplicationTests {
     void findQuizById() {
         Assertions.assertDoesNotThrow(
                 ()->{
-                    List<QuizDTO> result = quizService.findQuizByDetail("이것은 문제 일까요?");
-                    result.forEach(System.out::println);
+                    QuizDTO result = quizService.findSingleQuizByDetail("테스트용 문제 이것은 문제 일까요?");
+                    System.out.println(result);
                 }
         );
     }
